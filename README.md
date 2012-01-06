@@ -1,10 +1,13 @@
 # Where do your tax dollars go
 
-A simple website to show where your taxes go. This is a very rough release of the source code and has plenty of rough edges. 
+A simple website to show where your taxes go. Very, very initial release.
 
 Author: Anil Kandangath
+
 Website: www.kandangath.com
+
 Live Version: http://www.wheredidmytaxdollarsgo.com/
+
 Bugs/Suggestions: https://mytaxdollars.uservoice.com/forums/89641-general
 
 # Everything else
