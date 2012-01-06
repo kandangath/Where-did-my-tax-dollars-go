@@ -2,9 +2,9 @@
 
 A simple website to show where your taxes go. Very, very initial release.
 
-*Author:* Anil Kandangath  (www.kandangath.com)  
-*Live Version:* http://www.wheredidmytaxdollarsgo.com/  
-*Bugs/Suggestions:* https://mytaxdollars.uservoice.com/forums/89641-general
+**Author:** Anil Kandangath  (www.kandangath.com)  
+**Live Version:** http://www.wheredidmytaxdollarsgo.com/  
+**Bugs/Suggestions:** https://mytaxdollars.uservoice.com/forums/89641-general
 
 # Everything else
 
