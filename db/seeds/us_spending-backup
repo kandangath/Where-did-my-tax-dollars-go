@@ -1,0 +1,152 @@
+spending_rate:
+    -   year: 2009
+        categories:
+            - category: 'Defense'
+              description: >
+              spending: 
+                -   name: 'Military Expenditure'
+                    amount: 723703
+                    description: 
+
+                -   name: 'Civilian Programs'
+                    amount: 54862
+                    description: 
+
+                -   name: 'Department of Homeland Security'
+                    amount: 56366
+                    description:
+            
+            - category: "Energy/Infrastructure"
+              description: >
+              spending:
+                -   name: 'Department of Energy'
+                    amount: 45143
+                    description:
+           
+                -   name: 'Department of Transportation'
+                    amount: 86280
+                    description: 
+
+                -   name: 'Corps of Engineers'
+                    amount: 11540
+                    description: 
+
+            - category: "Science/Education"
+              description: >
+              spending:
+                -   name: NASA
+                    amount: 18732
+                    description:            
+            
+                -   name: 'National Science Foundation'
+                    amount: 8374
+                    description:
+    
+                -   name: 'Department of Education'
+                    amount: 101692
+                    description: 
+
+            - category: Health
+              description: >
+              spending:
+                -   name: 'Dept. of Health and Human Services'
+                    amount: 926236
+                    description:
+
+            - category: Government
+              description: >
+              spending:
+                -   name: 'Personnel Management'
+                    amount: 73676
+                    description:            
+
+                -   name: 'Small Business Administration'
+                    amount: 1465
+                    description:          
+        
+                -   name: 'Other Independent Agencies'
+                    amount: 47226
+                    description: 
+
+                -   name: Allowances
+                    amount: 37483
+                    description: 
+
+                -   name: 'Office of the President'
+                    amount: 500
+                    description:            
+
+                -   name: 'General Services and Administration'
+                    amount: 229
+                    description:            
+        
+                -   name: 'Department of State'
+                    amount: 29309
+                    description: 
+
+                -   name: 'Department of Justice'
+                    amount: 32381
+                    description: 
+    
+            - category: Miscellaneous
+              description: >
+              spending:
+                -   name: 'Legislative Branch'
+                    amount: 5599
+                    description:            
+
+                -   name: 'Judicial Branch'
+                    amount: 7512
+                    description:            
+
+                -   name: 'Department of Agriculture'
+                    amount: 144490
+                    description: 
+
+                -   name: 'Department of Commerce'
+                    amount: 11768
+                    description:
+        
+                -   name: 'Department of Interior'
+                    amount: 14382
+                    description:          
+
+                -   name: 'Environmental Protection Agency'
+                    amount: 11541
+                    description:
+        
+                -   name: Foreign Aid
+                    amount: 24659
+                    description:       
+        
+            - category: Social
+              description: >
+              spending:
+                -   name: Veterans Affairs
+                    amount: 134106
+                    description:   
+     
+                -   name: "Housing and Urban Development"
+                    amount: 51219
+                    description:
+        
+                -   name: "Department of Labor"
+                    amount: 109288
+                    description:
+                        
+                -   name: "Social Security Administration"
+                    amount: 789034
+                    description:
+            
+            - category: Treasury Expenses
+              description: >
+              spending:
+                -   name: "Interest on Treasury Debt"
+                    amount: 464706
+                    description:
+
+                -   name: "Miscellaneous Treasury Expenses"
+                    amount: 94921
+                    description:           
+            
+            

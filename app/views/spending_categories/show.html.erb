@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @spending_category.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @spending_category.description %>
+</p>
+
+<p>
+  <b>Has <%= @spending_category.spending_rates.count%> spending rates</b><br />
+  <% for spending_rate in @spending_category.spending_rates%>
+	<%= spending_rate.name%> (<%= spending_rate.amount%>%)<br />
+  <% end %>
+</p>
+
+<%= link_to 'Edit', edit_spending_category_path(@spending_category) %> |
+<%= link_to 'Back', spending_categories_path %>

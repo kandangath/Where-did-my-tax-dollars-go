@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Year:</b>
+  <%= @tax_rate.year %>
+</p>
+
+<p>
+  <b>Filing category:</b>
+  <%= @tax_rate.filing_category %>
+</p>
+
+<p>
+  <b>Marginal rate:</b>
+  <%= @tax_rate.marginal_rate %>
+</p>
+
+<p>
+  <b>Lower limit:</b>
+  <%= @tax_rate.lower_limit %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_tax_rate_path(@tax_rate) %> |
+<%= link_to 'Back', tax_rates_path %>

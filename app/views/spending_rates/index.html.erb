@@ -1,0 +1,30 @@
+<h1>Listing Spending Rates</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Year</th>
+    <th>Amount (millions USD)</th>
+    <th>Category</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% total = 0 %>
+<% @spending_rates.each do |spending_rate| %>
+  <tr>
+    <td><%= link_to spending_rate.name, spending_rate %></td>
+    <td><%= spending_rate.year %></td>
+    <td><%= spending_rate.amount %>%</td>
+    <td><%= spending_rate.spending_category.name %></td>
+    <td><%= link_to 'Edit', edit_spending_rate_path(spending_rate) %></td>
+    <td><%= link_to 'Destroy', spending_rate, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% total = total + spending_rate.amount %>
+<% end %>
+	<tr><td>Total</td><td></td><td><%= total %>%<td><td></td><td></td></tr>
+</table>
+
+<br />
+
+<%= link_to 'New Spending rate', new_spending_rate_path %>

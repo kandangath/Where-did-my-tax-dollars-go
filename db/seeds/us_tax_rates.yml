@@ -1,0 +1,225 @@
+tax_rate:
+    -   year: 2009
+        categories:
+            - category: Single
+              standard_deduction: 5700
+              rates:
+                -   marginal_rate   : 10
+                    lower_limit     : 0
+
+                -   marginal_rate   : 15
+                    lower_limit     : 8351
+
+                -   marginal_rate   : 25
+                    lower_limit     : 33951
+
+                -   marginal_rate   : 28
+                    lower_limit     : 82251
+
+                -   marginal_rate   : 33
+                    lower_limit     : 171551
+
+                -   marginal_rate   : 35
+                    lower_limit     : 372951
+
+            - category: 'Married (Filing Jointly)'
+              standard_deduction: 11400
+              rates:
+                -   marginal_rate   : 10
+                    lower_limit     : 0
+
+                -   marginal_rate   : 15
+                    lower_limit     : 16701
+
+                -   marginal_rate   : 25
+                    lower_limit     : 67901
+
+                -   marginal_rate   : 28
+                    lower_limit     : 137051
+
+                -   marginal_rate   : 33
+                    lower_limit     : 208851
+
+                -   marginal_rate   : 35
+                    lower_limit     : 372951       
+
+            - category: 'Married (Filing Separately)'
+              standard_deduction: 5700
+              rates:
+                -   marginal_rate   : 10
+                    lower_limit     : 0
+
+                -   marginal_rate   : 15
+                    lower_limit     : 8351
+
+                -   marginal_rate   : 25
+                    lower_limit     : 33951
+
+                -   marginal_rate   : 28
+                    lower_limit     : 68526
+
+                -   marginal_rate   : 33
+                    lower_limit     : 104426
+
+                -   marginal_rate   : 35
+                    lower_limit     : 186476  
+        
+            - category: 'Qualified Widow(er)'
+              standard_deduction: 11400
+              rates:
+                  -   marginal_rate   : 10
+                      lower_limit     : 0
+
+                  -   marginal_rate   : 15
+                      lower_limit     : 16701
+
+                  -   marginal_rate   : 25
+                      lower_limit     : 67901
+
+                  -   marginal_rate   : 28
+                      lower_limit     : 137051
+
+                  -   marginal_rate   : 33
+                      lower_limit     : 208851
+
+                  -   marginal_rate   : 35
+                      lower_limit     : 372951
+                
+            - category: 'Head of Household'
+              standard_deduction: 8350
+              rates:
+                -   marginal_rate   : 10
+                    lower_limit     : 0
+
+                -   marginal_rate   : 15
+                    lower_limit     : 11951
+
+                -   marginal_rate   : 25
+                    lower_limit     : 45501
+
+                -   marginal_rate   : 28
+                    lower_limit     : 117451
+
+                -   marginal_rate   : 33
+                    lower_limit     : 190201
+
+                -   marginal_rate   : 35
+                    lower_limit     : 372951            
+
+    -   year: 2010
+        categories:
+            - category: Single
+              rates:
+                -   marginal_rate   : 10
+                    lower_limit     : 0
+
+                -   marginal_rate   : 15
+                    lower_limit     : 8376
+
+                -   marginal_rate   : 25
+                    lower_limit     : 34001
+
+                -   marginal_rate   : 28
+                    lower_limit     : 82401
+
+                -   marginal_rate   : 33
+                    lower_limit     : 171851
+
+                -   marginal_rate   : 35
+                    lower_limit     : 373651
+
+            - category: 'Married (Filing Jointly)'
+              rates:
+                -   marginal_rate   : 10
+                    lower_limit     : 0
+
+                -   marginal_rate   : 15
+                    lower_limit     : 16751
+
+                -   marginal_rate   : 25
+                    lower_limit     : 68001
+
+                -   marginal_rate   : 28
+                    lower_limit     : 137301
+
+                -   marginal_rate   : 33
+                    lower_limit     : 209251
+
+                -   marginal_rate   : 35
+                    lower_limit     : 373651       
+
+            - category: 'Married (Filing Separately)'
+              rates:
+                -   marginal_rate   : 10
+                    lower_limit     : 0
+
+                -   marginal_rate   : 15
+                    lower_limit     : 8376
+
+                -   marginal_rate   : 25
+                    lower_limit     : 34001
+
+                -   marginal_rate   : 28
+                    lower_limit     : 68651
+
+                -   marginal_rate   : 33
+                    lower_limit     : 104626
+
+                -   marginal_rate   : 35
+                    lower_limit     : 186826  
+
+            - category: 'Qualified Widow(er)'
+              rates:
+                -   marginal_rate   : 10
+                    lower_limit     : 0
+
+                -   marginal_rate   : 15
+                    lower_limit     : 16751
+
+                -   marginal_rate   : 25
+                    lower_limit     : 68001
+
+                -   marginal_rate   : 28
+                    lower_limit     : 137301
+
+                -   marginal_rate   : 33
+                    lower_limit     : 209251
+
+                -   marginal_rate   : 35
+                    lower_limit     : 373651
+
+            - category: 'Head of Household'
+              rates:
+                -   marginal_rate   : 10
+                    lower_limit     : 0
+
+                -   marginal_rate   : 15
+                    lower_limit     : 11951
+
+                -   marginal_rate   : 25
+                    lower_limit     : 45551
+
+                -   marginal_rate   : 28
+                    lower_limit     : 117651
+
+                -   marginal_rate   : 33
+                    lower_limit     : 190551
+
+                -   marginal_rate   : 35
+                    lower_limit     : 373651
+                                    
+fica_tax_rate:
+    - year: 2009
+      rates:
+        - oasdi_rate: 6.2
+          oasdi_upper_limit: 106800
+          hi_rate: 1.45
+    
+seca_tax_rate:
+    - year: 2009
+      rates:
+        - oasdi_rate: 12.4
+          oasdi_upper_limit: 106800
+          hi_rate: 2.9
+    
+                                           

@@ -1,0 +1,66 @@
+<h1>Sources and Further Research</h1>
+
+<div id="two-pane-left">
+	<div class="infoblock">
+		<h2>Tax Information</h2>
+		<i>Internal Revenue Service</i>, <a href="http://www.irs.gov">IRS</a><br />
+		<i>Tax Withholding Calculator (detailed)</i>, <a href="http://www.irs.gov/individuals/article/0,,id=96196,00.html">IRS</a><br />
+		<i>Cornell University Law School - US Tax Code</i>, <a href="http://www.law.cornell.edu/uscode/html/uscode26/usc_sup_01_26_10_A_20_1.html">LII - Cornell</a><br />
+		<i>FICA and SECA (Social Security/Medicare)</i>, <a href="http://www.ssa.gov/OACT/ProgData/taxRates.html">Rates over the years</a><br />
+		<i>Tax Statistics</i>, <a href="http://www.irs.gov/taxstats/index.html">IRS</a><br />
+		<i>Whatwepayfor.com</i>, <a href="http://www.whatwepayfor.com/api/getTaxRates?year=2009">API</a><br />
+	</div>
+
+	<div class="infoblock">
+		<h2>Budgetary Spending</h2>
+		<a href="http://www.federalbudget.com/">FederalBudget.com</a><br />
+		<i>Monthly Treasury Report</i>, <a href="http://www.fms.treas.gov/mts/index.html">U.S. Treasury</a><br />
+		<i>President's Budget Report</i>, <a href="http://www.whitehouse.gov/omb/budget_fy2009_default">Office of Management and Budget</a><br />
+		<i>Whatwepayfor.com</i>, <a href="http://whatwepayfor.com/">Web</a>/<a href="http://www.datavizchallenge.org/using-api">API</a><br />
+	</div>
+
+	<div class="infoblock">
+		<h2>Additional Resources</h2>
+		<i>Center on Budget and Policy Priorities</i>, <a href="http://www.cbpp.org/cms/index.cfm?fa=view&id=1258">CBPP</a><br />
+		<i>Mandatory and Discretionary Govt. Spending</i>, <a href="http://en.wikipedia.org/wiki/Government_spending">Wikipedia</a><br />
+		<i>Tax laws in other countries</i>, <a href="http://www.law-library.info/page/tax-international.htm">Law-Library</a><br />
+		<i>Tax rates in other countries</i>, <a href="http://en.wikipedia.org/wiki/Tax_rates_around_the_world">Wikipedia</a>
+	</div>
+	
+	<div class="infoblock">
+		<h2>Similar Projects</h2>
+		<i>Tax Trackr</i>, <a href="http://www.investorguide.com/taxtrackr/">Investor Guide</a><br />
+		<i>Tax Chart</i>, <a href="http://nationalpriorities.org/en/tools/taxchart/">National Priorities Project</a><br />
+		<i>(Note: Due to differences in the way expenses are determined and grouped, the numbers may not agree. If there are any
+		inaccuracies, help in resolving them is appreciated.)</i>
+
+	</div>
+	
+	<div class="infoblock">
+		<h2>Notes</h2>
+		Medicare and Social Security expenses are are funded by 
+		<a href="http://en.wikipedia.org/wiki/Federal_Insurance_Contributions_Act_tax">payroll</a> or 
+		<a href="http://en.wikipedia.org/wiki/Self-employment#US_Taxation">self-employment</a> taxes. However, since not all medicare and social security expenses
+		are met from the previous year's contributions, and considering that all tax revenue goes into the same pool, part of your payroll taxes is also shown as funding
+		other government expenditure. 
+	</div>
+	
+</div>
+
+<div id="two-pane-right">
+	<div class="infoblock">
+		<h2>U.S. Government Spending (2010)</h2>
+		<h3>Spending data has been obtained from the <a href="http://whatwepayfor.com/">What We Pay For</a> project.</h3>
+		<h2>Expense (millions USD)</h2>
+		<% @spending_categories.each do |cat| %>
+			<div class="level1"><%= cat.name %> (<%= number_to_currency(cat.amount_sum, :precision => 0, :locale => :us) %>)</div>
+			<% cat.spending_rates.each do |rate| %>
+				<div class="level2"><%= rate.name %> (<%= number_to_currency(rate.amount, :precision => 0, :locale => :us) %>)</div>
+			<% end %>
+		<% end %>
+	</div>
+</div>
+
+<!-- dummy div to set the container height (since the floated divs are not accounted for) -->
+<div style="clear: both;">&nbsp;</div>
+	

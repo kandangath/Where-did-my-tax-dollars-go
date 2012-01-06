@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @spending_rate.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @spending_rate.description %>
+</p>
+
+<p>
+  <b>Amount (millions USD):</b>
+  <%= @spending_rate.amount %>%
+</p>
+
+<p>
+  <b>Spending category:</b>
+  <%= @spending_rate.spending_category.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_spending_rate_path(@spending_rate) %> |
+<%= link_to 'Back', spending_rates_path %>

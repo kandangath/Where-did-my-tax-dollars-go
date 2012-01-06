@@ -1,0 +1,17 @@
+<h1>Admin Page </h1>
+
+<%= link_to "Spending Categories", spending_categories_path %><br />
+<%= link_to "Spending Rates", spending_rates_path %><br /><br />
+
+<%= link_to "Tax Filing Categories", filing_categories_path %><br />
+<%= link_to "Tax Rates", tax_rates_path %>
+
+<br /><br />
+<% if !current_user %>
+	<%= link_to "Register", new_account_path %> |
+	<%= link_to "Log In", new_user_session_path %> |
+<% else %>
+	<b><%= current_user.email %></b>&nbsp;
+	<%= link_to "My Account", account_path %> |
+	<%= link_to "Logout", user_session_path, :method => :delete, :confirm => "Are you sure you want to logout?" %>
+<% end %>	

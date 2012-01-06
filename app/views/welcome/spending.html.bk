@@ -1,0 +1,191 @@
+<script type="text/javascript">
+
+// function switch_tabs(obj)
+// {
+// 	$('.tab-content').hide();
+// 	$('.pietabs a').removeClass("selected");
+// 	var id = obj.attr("rel");
+//  
+// 	$('#'+id).show();
+// 	obj.addClass("selected");
+// }
+//Variables for the pie-charts
+var chart1;
+$(document).ready(function() {
+	
+	//tabs
+	// $('.pietabs a').click(function(){
+	// 	switch_tabs($(this));
+	// });
+ 
+	//switch_tabs($('.defaulttab'));
+	
+	// Chart by Expense Category
+	chart1 = new Highcharts.Chart({
+		chart: {
+		backgroundColor: null,
+			renderTo: 'chart-container-1',
+			margin: [0, 0, 0, 0],
+		},
+		animation: {
+            duration: 1500,
+            easing: 'swing'
+        },
+		credits: {
+		        text: 'www.wheredidmytaxdollarsgo.com',
+		        href: 'http://www.wheredidmytaxdollarsgo.com'
+		    },
+		title: {
+		   text: ''
+		},
+		plotArea: {
+		   shadow: null,
+		   borderWidth: null,
+		   backgroundColor: null
+		},
+	   tooltip: {
+	      formatter: function() {
+	         return '<b>'+ this.point.name + ': $' + this.y.toFixed(0) + '</b> ('+ this.percentage.toFixed(0) +'%)';
+	      }
+	   },
+	   plotOptions: {
+	      pie: {
+	         allowPointSelect: true,
+	         cursor: 'pointer',
+			 point: {
+				events: {
+					click: function(){
+						$('*[id*=pieseg]').hide();
+						$( '#' + this.id ).show();
+					}
+				}
+			 },
+	         dataLabels: {
+	            enabled: true,
+				distance: -75,
+	            formatter: function() {
+	               if (this.percentage > 3.0) return this.point.name;
+	            },
+	            color: 'black',
+	            style: {
+	               font: 'normal 11px Trebuchet MS, Verdana, sans-serif'
+	            }
+	         }
+	      }
+	   },
+	   legend: {
+		  enabled: false,
+	   },
+	    series: [{
+	      type: 'pie',
+	      name: 'Tax Spending',
+		  size: "90%",
+	      data: [
+			<% total_spending = 0.0 %>
+			<% for spending_cat in @spending_categories %>
+				{
+					name: '<%= spending_cat.name %>',
+					y: <%= (spending_cat.rate_sum.to_f)*0.01*@income_tax %>,
+					id: 'pieseg-<%= spending_cat.id %>'
+				},
+				<% total_spending += spending_cat.rate_sum.to_f %>
+			<% end %>
+			<% if total_spending < 100.0 %>
+				{
+					name: 'Others',
+					y: <%= (100.0 - total_spending.to_f)*0.01*@income_tax %>,
+					id: 'pieseg-others'
+				}
+			<% end %>
+	      ]
+	   }]
+	});
+});
+
+
+//Smaller Pies
+
+</script>
+
+<div id="pie-left">
+	<div>
+		<span id="expl-1">For your income of </span> <span id="expl-2"><%= number_to_currency(@income, :precision => 0, :locale => :us) %></span>
+		<% if @income >= 900000 %><div class="smallserif">That's around <%= number_to_human(@income, :precision => 0) %> dollars</div><% end %>
+	</div>
+    <% if @income_tax > 0 %>
+	<div id="bracket-breakdown" align="center">
+		<div id="expl-7">With a Std. Deduction of </div><div id="expl-8"><%= number_to_currency(@standard_deduction, :precision => 0, :locale => :us) %></div>
+		<table align="center" cellspacing = "1">
+			<tr><th colspan="3" class="tbl-left">For</th><th colspan="2">You Paid</th>
+			<% for bracket in @tax_brackets %>
+			    <% if bracket["calc_tax"] > 0 %>
+					<tr><td align="right"><%= number_to_currency(bracket["lower_limit"], :locale => :us, :precision => 0) %></td>
+						<td>to</td>
+						<td align="left" class="tbl-left"><%= number_to_currency([ bracket["upper_limit"], (@income-@standard_deduction)].min, :locale => :us, :precision => 0) %></td>
+						<td align="right"><%= number_to_currency(bracket["calc_tax"], :locale => :us, :precision => 0)%></td>
+						<td align="center">(<%= number_to_percentage(bracket["marginal_rate"], :precision => 0) %>)</td>
+					</tr>
+				<% end %>
+			<% end %>
+		</table>
+		<div class="smallserif">Filing as <%= @tax_payer.filing_category_name %></div>
+	</div>
+	<% end %>
+	<div id="effective-rate">
+		<div>
+			<span id="expl-3">Your Federal Taxes were </span><span id="expl-4"><%= number_to_currency(@income_tax, :locale => :us, :precision => 0) %></span>
+			<% if @income_tax >= 900000 %><div class="smallserif" style="padding-bottom: 10px;">(That's around <%= number_to_human(@income_tax, :precision => 0) %> dollars)</div><% end %>
+		</div>	
+		<% if @income_tax > 0 %>
+			<div>
+				<span id="expl-5">an effective tax rate of</span>
+				<span id="expl-6"><%= number_to_percentage( (@income_tax/@income)*100, :precision => 1) %></span>
+			</div>
+			<div class="smallserif" style="padding-top: 20px;">
+				[<%= link_to "Link to this", :fcat => @tax_payer.filing_category, :inc => @tax_payer.income %>]
+			</div>
+			<div class="smallserif" style="padding-top: 30px; color: #666;">NOTE: This is an estimate of your income tax and does not include payroll taxes (FICA/SECA). 
+				<br />As a result, the pie-chart does not include Social Security or Medicare spending either.</div>
+		<% end %>
+	</div>
+</div>
+
+<div id="pie-wrapper">
+	<% if @income_tax > 0 %>
+		<div id="pie-header">This is how it was spent</div>
+		<div class="pie" id="chart-container-1"></div>
+	<% else %>
+		<div class="smallserif" style="padding-top: 100px;">
+			Your tax liability is $0, so you did not directly contribute towards any federal spending!
+		</div>
+	<% end %>
+	<div style="clear:both;"></div>
+</div>
+
+<div id="pie-right">
+	<% if @income_tax > 0 %>
+		<div id="pieseg-hint">&laquo; Click on a pie segment to find out more</div>
+		<% for spending_cat in @spending_categories %>
+			<div id = "pieseg-<%= spending_cat.id %>" style="display:none;">
+				<div class="expl-header"><%= spending_cat.name %></div>
+				<div class="expl-desc1">Your contribution was around <%= number_to_currency((spending_cat.rate_sum.to_f)*0.01*@income_tax, :precision => 0, :locale => :us)%></div>
+				<div class="expl-desc2">
+					<table class="tbl-spending-details">
+						<% spending_cat.spending_rates.each do |r|%>
+						<tr> <td class="spending-amt"><%= number_to_currency(r.rate * 0.01 * @income_tax, :precision => 0, :locale => :us)%></td>
+							<td class="spending-name"><%= r.name %></td>
+						</tr>
+						<% end %>
+					</table>
+				</div>
+				<div class="expl-desc3">
+					<%= simple_format(spending_cat.description) %>
+				</div>
+			</div>
+		<% end %>
+	<% end %>
+</div>
+
+<div id = "taxform">
+	<%= render 'income' %>
+</div>

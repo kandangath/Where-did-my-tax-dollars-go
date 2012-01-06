@@ -1,0 +1,213 @@
+<% total_tax = @income_tax + @oasdi_tax + @hi_tax %>
+<% total_income_salaried = @income %>
+<script type="text/javascript">
+	
+	var chart_main;
+	var chart_detail_1;
+	<%= init_pie_options( 	:options_var => 'options_main', 
+							:render_to => 'chart-container-1',
+							:func_onclick => "$('*[id*=pieseg]').hide(); $('#' + this.id).show(); push_pie_detail(this.id);"
+							)%>
+
+	<%= init_pie_options( 	:options_var => 'options_detail_1', 
+							:render_to => 'chart-container-2',
+							:animation_duration => 1000,
+							:data_labels_enable => 'false',
+							:inner_size => '100',
+							:credits_text => '', :credits_href => '',
+							:func_onmouseover => "$('#spending-detail-' + this.id).css('background', '#C9DECB')",
+							:func_onmouseout => "$('#spending-detail-' + this.id).css('background', 'none')"
+							)%>
+
+	// Add data series to pie options object
+	options_main.series.push({
+		type: 'pie',
+		name: 'Tax Spending',
+		size: "90%",
+		data: [
+			<% total_spending = 0.0 %>
+			<% rate_sum = 0.0 %>
+			<% for spending_cat in @spending_categories %>
+				<% rate_sum = spending_cat.amount_sum.to_f/@total_spending %>
+				{
+					name: 	'<%= escape_javascript(spending_cat.name) %>',
+					y: 		<%= (rate_sum.to_f)*total_tax %>,
+					id: 	'pieseg-<%= spending_cat.id %>'
+				},
+				<% total_spending += rate_sum.to_f %>
+			<% end %>
+
+		]
+	})
+	
+	// Add some data to the details pie chart
+	options_detail_1.series.push({ name: 'Tax Spending Detail', data: [] });
+	
+	$(document).ready(function() {
+		chart_main = new Highcharts.Chart(options_main);
+		chart_detail_1 = new Highcharts.Chart(options_detail_1);
+	})
+	
+	function push_pie_detail(segid) {
+		switch(segid)
+		{
+			<% for spending_cat in @spending_categories %>
+			<% _threshold_ = (spending_cat.amount_sum.to_f > 100000)? 10000:1000 %>
+			case 'pieseg-<%= spending_cat.id %>':
+				$('div.expl-header').text('<%= spending_cat.name %>');
+				setTimeout("chart_detail_1.series[0].remove(false)", 1000);
+				chart_detail_1.addSeries(options_detail_1, false);
+				chart_detail_1.series[1].setData([
+					<% amt_misc = 0.0 %>
+					<% spending_cat.spending_rates.each do |r|%>
+						<% if r.amount > 0 %>
+							<% if r.amount > _threshold_ %>
+								{ name: '<%= escape_javascript(r.name) %>', y: <%= r.amount * total_tax/@total_spending %>, id: <%= r.id %> },
+							<% else %>
+								<% amt_misc += r.amount %>
+							<% end %>
+						<% end %>
+					<% end %>
+					<% if amt_misc > 0.0 %>
+						{ name: 'Misc', y: <%= amt_misc * total_tax/@total_spending %>, id: -999 },
+					<% end %>
+					], false);
+				chart_detail_1.redraw();
+				break;
+			<% end %>
+			default:
+				break;
+		}
+	}
+	
+	// function add_fica_seca(income_tax){
+	// 	chart_main.series[0].addPoint(Math.random() * 500);
+	// 	return income_tax + 50;
+	// }
+	// function remove_fica_seca(income_tax){
+	// 	var series = chart_main.series[0];
+	// 	series.data[series.data.length-1].remove();
+	// }
+
+</script>
+
+<div id="pie-left">
+	<div>
+		<span id="expl-1">For your income of </span> <span class="number1"><%= number_to_currency(@income, :precision => 0, :locale => :us) %></span>
+		<% if @income >= 900000 %><div class="smallserif">That's around <%= number_to_human(@income, :precision => 0) %> dollars</div><% end %>
+	</div>
+	<div id="bracket-breakdown" align="center">
+		<% agi = [@income - @standard_deduction,0].max %>
+		<div class="calcbox">
+			<div class="ttl2">Federal Taxes</div>
+			<% if agi > 0 %>
+		    <table align="center" cellspacing = "1">
+				<tr><th colspan="3" class="tbl-left">For</th><th colspan="2">You Paid</th>
+				<% for bracket in @tax_brackets %>
+				    <% if bracket["calc_tax"] > 0 %>
+						<tr><td align="right"><%= number_to_currency(bracket["lower_limit"], :locale => :us, :precision => 0) %></td>
+							<td>to</td>
+							<td align="left" class="tbl-left"><%= number_to_currency([ bracket["upper_limit"], (@income-@standard_deduction)].min, :locale => :us, :precision => 0) %></td>
+							<td align="right"><%= number_to_currency(bracket["calc_tax"], :locale => :us, :precision => 0)%></td>
+							<td align="center">(<%= number_to_percentage(bracket["marginal_rate"], :precision => 0) %>)</td>
+						</tr>
+					<% end %>
+				<% end %>
+			</table>
+			<% end %>
+			<div class="number2"><%= number_to_currency(@income_tax, :precision => 0, :locale => :us) %></div>
+			<div class="smallserif">(Filing as <%= @tax_payer.filing_category_name %>, your adjusted gross income was <%= number_to_currency(agi, :precision => 0, :locale => :us)%>
+				after a standard deduction of <%= number_to_currency(@standard_deduction, :precision => 0, :locale => :us) %>)</div>
+		</div>
+	</div>
+	<div id="oasdi_box" align="center">
+		<div class="calcbox">
+			<div class="ttl2">Social Security Taxes</div><div class="number2"><%= number_to_currency(@oasdi_tax, :precision => 0, :locale => :us) %></div>
+		    <div class="smallserif">The first <%= number_to_currency(@fica_rates.oasdi_upper_limit, :precision => 0)%> of your total income is taxed at <%= number_to_percentage(@fica_rates.oasdi_rate, :precision => 2)%>.</div>
+		</div>
+	</div>
+	<div id="hi_box" align="center">
+		<div class="calcbox">
+			<div class="ttl2">Medicare Taxes</div><div class="number2"><%= number_to_currency(@hi_tax, :precision => 0, :locale => :us) %></div>
+			<div class="smallserif">Your total income is taxed at <%= number_to_percentage(@fica_rates.hi_rate, :precision => 2)%>. There is no upper limit on your taxable income here.</div>
+		</div>
+	</div>
+	<div class="smallserif-left">The employer pays an equal amount (<%= number_to_currency(@oasdi_tax + @hi_tax, :precision => 0)%>) of Social Security and Medicare taxes on your behalf</div>
+	
+	<div id="effective-rate">
+		<div>
+			<span id="expl-3">Your Total Taxes were </span><span class="number1"><%= number_to_currency(total_tax, :locale => :us, :precision => 0) %></span>
+			<% if total_tax >= 900000 %><div class="smallserif" style="padding-bottom: 10px;">(That's around <%= number_to_human(total_tax, :precision => 0) %> dollars)</div><% end %>
+		</div>	
+		<% if total_tax > 0 %>
+			<div>
+				<span id="expl-5">an effective tax rate of</span>
+				<div style="margin-bottom: 5px;">
+					<span class="number1"><%= number_to_percentage( (total_tax/total_income_salaried)*100, :precision => 1) %></span>
+					<div class="smallserif">FOR A SALARIED PERSON</div>
+				</div>
+			</div>
+			<div class="smallserif-left"><b>NOTE</b>: The <a href="http://en.wikipedia.org/wiki/Standard_deduction">standard deduction</a> used here to illustrate the computation causes the final amount to differ from the amount calculated on <a href="http://www.whatwepayfor.com">whatwepayfor.com</a>. Your actual tax liability will vary based on the deductions and exemptions you may qualify for.</div>
+			
+			<div class="smallserif" style="padding-top: 20px;">
+				-<%= link_to "Link to this page", :fcat => @tax_payer.filing_category, :inc => @tax_payer.income %>-
+			</div>
+			<!-- <div class="smallserif" style="padding-top: 30px; color: #666;">NOTE: This is an estimate of your income tax and does not include payroll taxes (FICA/SECA). 
+				<br />As a result, the pie-chart does not include Social Security or Medicare spending either.
+			</div> -->
+		<% end %>
+	</div>
+</div>
+
+<div id="pie-wrapper">
+	<% if total_tax > 0 %>
+		<div id="pie-header">This is how it was spent</div>
+		<div class="pie" id="chart-container-1"></div>
+	<% else %>
+		<div class="smallserif" style="padding-top: 100px;">
+			Your tax liability is $0, so you did not directly contribute towards any federal spending!
+		</div>
+	<% end %>
+	<div style="clear:both;"></div>
+</div>
+
+<div id="pie-right">
+	<% if total_tax > 0 %>
+		<div id="pieseg-hint">&laquo; Click on a pie segment to find out more</div>
+		<div class="expl-header"></div>
+		<div class="pie-detail" id="chart-container-2"></div>
+		<% for spending_cat in @spending_categories %>
+		<% _threshold_ = (spending_cat.amount_sum.to_f > 100000)? 10000:1000 %>
+		
+			<div id = "pieseg-<%= spending_cat.id %>" style="display:none;">
+				<div class="expl-desc1">Your contribution was around <%= number_to_currency((spending_cat.amount_sum.to_f)*total_tax/@total_spending.to_f, :precision => 0, :locale => :us)%></div>
+				<div class="expl-desc2">
+					<div class="tbl-spending-details">
+						<% spending_cat.spending_rates.each do |r|%>
+							<% if r.amount > _threshold_ %>
+								<div id="spending-detail-<%= r.id%>">
+									<table border=0 cellpadding=0 cellspacing=0 margin=0>
+										<tr>
+											<td class="spending-amt" width=80px><%= number_to_currency(r.amount * total_tax/@total_spending.to_f, :precision => 0, :locale => :us)%></td>
+											<td class="spending-name"><%= r.name %></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td align="left" class="smallserif-left"><%= number_to_percentage(100*r.amount/@total_spending.to_f,:precision=>1)%> of total</td>
+									</table>
+								</div>
+							<% end %>
+						<% end %>
+					</div>
+				</div>
+				<div class="expl-desc3">
+					<%= simple_format(spending_cat.description) %>
+				</div>
+			</div>
+		<% end %>
+	<% end %>
+</div>
+
+<div id = "taxform">
+	<%= render 'income' %>
+</div>

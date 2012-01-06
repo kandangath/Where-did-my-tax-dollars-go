@@ -1,0 +1,28 @@
+<h1>Listing Spending Categories</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+	<th>Total Amount (millions USD)</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% total = 0 %>
+<% @spending_categories.each do |spending_category| %>
+  <tr>
+    <td><%= link_to spending_category.name, spending_category %></td>
+	<td><%= spending_category.amount_sum %></td>
+    <td><%= truncate(spending_category.description, :length => 100) %></td>
+    <td><%= link_to 'Edit', edit_spending_category_path(spending_category) %></td>
+    <td><%= link_to 'Destroy', spending_category, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% total = total + spending_category.amount_sum %>
+<% end %>
+	<tr><td>Total</td><td><%= total %></td><td></td><td></td><td></td></tr>
+</table>
+
+<br />
+
+<%= link_to 'New Spending category', new_spending_category_path %>

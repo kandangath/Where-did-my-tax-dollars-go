@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @filing_category.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @filing_category.description %>
+</p>
+
+<p>
+  <b>Standard Deduction:</b>
+  $<%= @filing_category.standard_deduction %>
+</p>
+
+<p>
+  <b>Has <%= @filing_category.tax_rates.count%> tax rates</b><br />
+	<% if @filing_category.tax_rates.count > 0 %>
+	<table>
+		<tr><th>Marginal Rate</th><th>Lower Limit</th></tr>
+		<% for tax_rate in @filing_category.tax_rates%>
+		<tr>
+			<td><%= tax_rate.marginal_rate%>%</td><td>$<%= tax_rate.lower_limit%></td>
+		</tr>
+		<% end %>
+	</table>
+	<% end %>
+</p>
+
+<%= link_to 'Edit', edit_filing_category_path(@filing_category) %> |
+<%= link_to 'Back', filing_categories_path %>

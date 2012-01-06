@@ -1,0 +1,34 @@
+<%= form_for(@tax_rate) do |f| %>
+  <% if @tax_rate.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tax_rate.errors.count, "error") %> prohibited this tax_rate from being saved:</h2>
+
+      <ul>
+      <% @tax_rate.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :year %><br />
+    <%= f.number_field :year %>
+  </div>
+  <div class="field">
+    <%= f.label :filing_category_id %><br />
+	<%= select("tax_rate", "filing_category_id", FilingCategory.find(:all).collect{|c| [c.name, c.id]} ) %>
+  </div>
+  <div class="field">
+    <%= f.label :marginal_rate %><br />
+    <%= f.number_field :marginal_rate %>%
+  </div>
+  <div class="field">
+    <%= f.label :lower_limit %><br />
+    $<%= f.number_field :lower_limit %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

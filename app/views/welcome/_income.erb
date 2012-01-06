@@ -1,0 +1,24 @@
+<%= form_for(@tax_payer, :html => {:method => "post"}) do |f| %>
+  <% if @tax_payer.errors.any? %>
+    <div id="error_explanation">
+      <ul>
+      <% @tax_payer.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label 'I made $' %>
+    <%= f.number_field :income, :size => 10 %><span class="t"></span>
+
+    <%= f.label 'and I filed as' %>
+	<%= select("tax_payer", "filing_category", FilingCategory.find(:all).collect{|c| [c.name, c.id]} ) %>
+  </div>
+  <br />
+  <div class="actions">
+    <%= f.submit(:value => 'Where did my tax dollars go?') %>
+  </div>
+  <div class="smallserif">* Data is for 2009 Tax Year (2010 Spending Year)</div>
+<% end %>

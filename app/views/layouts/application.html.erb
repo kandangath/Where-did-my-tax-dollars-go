@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+	<title><%= @page_title || APP_CONFIG[:site_name] %></title>
+	<meta name="description" content="A simplified look at how your federal tax dollars are spent. Enter your income to get an estimate of your tax liability for the year along with a pie chart of how it was probably spent." /> 
+	<meta name="google-site-verification" content="mTDHaP2QqVJeBhegIB_eBlZIrorm63-hEp4-rpZ7iuU" />
+	<meta property="og:title" content="Where did my tax dollars go?"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="http://www.wheredidmytaxdollarsgo.com/"/>
+    <meta property="og:image" content="http://www.wheredidmytaxdollarsgo.com/images/Winkin_George.png?1291592894"/>
+    <meta property="og:site_name" content="Where did my tax dollars go?"/>
+    <meta property="fb:admins" content="530588507"/>
+    <meta property="og:description"
+          content="A simplified look at how your federal tax dollars are spent.
+                   Enter your income to get an estimate of your tax liability for
+                   the year along with a pie chart of how it was probably spent."/>
+	
+	<%= stylesheet_link_tag 'reset-fonts-grids' %>
+	<%= stylesheet_link_tag 'base' %>
+	<%= stylesheet_link_tag 'default' %>
+	<%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag 'highcharts' %>
+  <%= javascript_include_tag 'jquery.ez-pinned-footer' %>
+  <%= csrf_meta_tag %>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	// Position the footer at the bottom of the page
+	$("#footer").pinFooter();
+	// Set the width of the header to the width of the page. Ensure that they adapt to any page resizing
+	$("#header").css("width", $(window).width());
+	// $("#footer").css("width", $(window).width());
+		
+	$(window).resize(function() {
+		$("#header").css("width", $(window).width());
+
+		$("#footer").pinFooter();
+	});
+});
+</script>
+
+
+</head>
+<body>
+<div id="header">
+	<%= render 'layouts/header' %>
+</div>
+<div id="container">
+	<div id="debug-log"></div>
+	<p style="color: green"><%= flash[:notice] %></p>
+	<%= yield %>
+	<div style="clear:both;"></div>
+</div>
+
+<div id="footer">
+	<%= render 'layouts/footer' %>
+</div>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20002509-1']);
+  _gaq.push(['_setDomainName', 'none']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+</body>
+</html>
