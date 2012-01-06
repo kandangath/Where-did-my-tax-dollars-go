@@ -60,10 +60,6 @@ class WelcomeController < ApplicationController
     end
   end
   
-  def admin
-    # render admin welcome template
-  end
-  
   def credits
     # render template
   end

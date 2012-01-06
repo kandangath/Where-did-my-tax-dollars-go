@@ -13,7 +13,6 @@ Taxwhere::Application.routes.draw do
   
   
   match'/tax_payers', :controller => 'welcome', :action => 'spending'
-  match 'admin' => 'welcome#admin'
   # match 'november' => 'welcome#index'
   match 'credits' => 'welcome#credits'
   match 'sources' => 'welcome#sources'
